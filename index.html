@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<title>Project 3</title>
+<style>
+
+body {
+  background: #fcfcfa;
+}
+
+.stroke {
+  fill: none;
+  stroke: #084081;
+  stroke-width: 3px;
+}
+
+.fill {
+  fill: #fff;
+}
+
+.graticule {
+  fill: none;
+  stroke: #7bccc4;
+  stroke-width: .5px;
+  stroke-opacity: .5;
+}
+
+.land {
+  fill: #9ecae1;
+}
+
+.boundary {
+  fill: none;
+  stroke: #fff;
+  stroke-width: .5px;
+}
+
+.svg-container{
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 20px;
+}
+
+</style>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css">
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="http://d3js.org/topojson.v2.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+</head>
+
+<body>
+<div class="svg-container">
+    <svg id="globe" class="globe"> </svg>
+</div>
+<script>
+
+var width = 600,
+    height = 600;
+
+var projection = d3.geoOrthographic()
+    .scale(300)
+    .rotate([100, -40, 0])
+    .translate([width / 2, height / 2])
+    .clipAngle(90)
+    .precision(.1);
+
+var path = d3.geoPath()
+    .projection(projection);
+
+var graticule = d3.geoGraticule();
+
+var svg = d3.select("#globe")
+    .attr("width", width)
+    .attr("height", height);
+
+svg.append("defs").append("path")
+    .datum({type: "Sphere"})
+    .attr("id", "sphere")
+    .attr("d", path);
+
+svg.append("use")
+    .attr("class", "stroke")
+    .attr("xlink:href", "#sphere");
+
+svg.append("use")
+    .attr("class", "fill")
+    .attr("xlink:href", "#sphere");
+
+svg.append("path")
+    .datum(graticule)
+    .attr("class", "graticule")
+    .attr("d", path);
+
+d3.json("world-50m.json", function(error, world) {
+  if (error) throw error;
+
+  svg.insert("path", ".graticule")
+      .datum(topojson.feature(world, world.objects.land))
+      .attr("class", "land")
+      .attr("d", path);
+
+  svg.insert("path", ".graticule")
+      .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
+      .attr("class", "boundary")
+      .attr("d", path);
+});
+
+d3.select(self.frameElement).style("height", height + "px");
+
+function showLocations(points){
+
+  var circles = svg.selectAll("circle").data(points);
+  var randomNum = function(){
+    return Math.random()*20;
+  };
+  
+  circles.exit().remove();
+
+  circles.enter().append("circle").attr("r", 5).attr("fill", "#081d58")
+  .merge(circles)
+  .attr("cx", function(d) { return projection(d)[0]; })
+  .attr("cy", function(d) { return projection(d)[1]; });
+
+  circles.enter().append("text").text(function(d) { return d[2]; })
+  .attr("fill", "#081d58")
+  .merge(circles)
+  .attr("x", function(d) { return projection(d)[0] + 5; })
+  .attr("y", function(d) { return projection(d)[1] - randomNum(); });
+
+}
+
+var parseRow1 = function(line){
+    return {
+      sitename: line["Launch Site"]
+    }
+  };
+
+var parseRow2 = function(line){
+    return {
+      name: line["Launch Site"],
+      latitude: line["Latitude"],
+      longitude: line["Longitude"]
+    }
+  };
+
+d3.queue()
+  .defer(d3.csv, "datasets/spacex-missions-database.csv", parseRow1)
+  .defer(d3.csv, "datasets/launch-sites.csv", parseRow2)
+  .await(function(error, spacedata, launchdata){
+    
+    var launchlocations = [];
+
+    launchdata.forEach(function(d){
+
+        var orientation = d.longitude.split(" ")[1];
+
+        if(orientation == 'W'){
+          d.longitude = Number(d.longitude.split(" ")[0]) * -1;
+        } else{
+          d.longitude = Number(d.longitude.split(" ")[0]);
+        }
+        d.latitude = Number(d.latitude.split(" ")[0]);
+
+        launchlocations.push([d.longitude, d.latitude, d.name]);
+
+    });
+
+    showLocations(launchlocations);
+
+  });
+
+
+</script>
