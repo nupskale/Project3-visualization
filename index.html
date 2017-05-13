@@ -6,6 +6,7 @@
 
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<script src="https://d3js.org/d3.v4.min.js"></script>
 	<script src="http://d3js.org/topojson.v2.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
@@ -15,19 +16,22 @@
 <body>
 
 	<h1 id="title"> Space X Missions</h1>
+
 	<div id="submenu">
-		<button type="submit" style="border: 0; background: transparent" onclick="sort(0);">
-			<img src="icons/button1.png" width="200" height="80" alt="submit" />
+
+		<button type="submit"  onclick="sort(0);">
+			<img id="btnImg"  src="imgs/button1.png" alt="submit" />
 		</button>
-		<button type="submit" style="border: 0; background: transparent" onclick="sort(1);">
-			<img src="icons/button2.png" width="200" height="80" alt="submit" />
+		<button type="submit" onclick="sort(1);">
+			<img id="btnImg"  src="imgs/button2.png" alt="submit" />
 		</button>
-		<button type="submit" style="border: 0; background: transparent" onclick="sort(2);">
-			<img src="icons/button3.png" width="200" height="80" alt="submit" />
+		<button type="submit" onclick="sort(2);">
+			<img id="btnImg" src="imgs/button3.png" alt="submit" />
 		</button>
-		<button type="submit" style="border: 0; background: transparent" onclick="sort(3);">
-			<img src="icons/button4.png" width="200" height="80" alt="submit" />
+		<button type="submit" onclick="sort(3);">
+			<img id="btnImg"  src="imgs/button4.png"  alt="submit" />
 		</button>
+
 	</div>
 
 	<div class="svg-container">
@@ -38,13 +42,14 @@
 
 		var missions_set = [];
 		var launchlocations = [];
-		var arcs;
 		var launchColor;
-		var blink = false;
 		var locNames = ["Cape Canaveral AFS LC-40", "Marshall Islands", "Vandenberg AFB SLC-4E", "Kennedy Space Center LC-39A"];
+		var arcs;
+		var blink = false;
+		
 
 		class mission {
-			constructor( day, month, year, loc, site, type, orbit, costumer, country, costumer_type, outcome, reason ) {
+			constructor(day, month, year, loc, site, type, orbit, costumer, country, costumer_type, outcome, reason) {
 				this.day = day;
 				this.month = month;
 				this.year = year;
@@ -60,20 +65,22 @@
 			}
 		};
 
+
 		d3.queue()
 		.defer(d3.csv, "datasets/missions.csv")
 		.defer(d3.csv, "datasets/launch-sites.csv")
 		.await(function (error, rawMissions, launchdata) {
 
-			launchdata.forEach(function(d){
+			launchdata.forEach(function(d) {
 
 				var orientation = d.Longitude.split(" ")[1];
 
 				if(orientation == 'W'){
 					d.Longitude = Number(d.Longitude.split(" ")[0]) * -1;
-				} else{
+				}else{
 					d.Longitude = Number(d.Longitude.split(" ")[0]);
-				}
+				};
+
 				d.Latitude = Number(d.Latitude.split(" ")[0]);
 
 				launchlocations.push([d.Longitude, d.Latitude, d["Launch Site"]]);
@@ -100,9 +107,11 @@
 				launchdata.forEach(function(site) {
 					if(site["Launch Site"] == new_mission.site){
 						new_mission.loc = [site.Longitude, site.Latitude];
-					}
+					};
 				});
+
 				missions_set.push(new_mission);
+
 			});
 
 			showMap();
@@ -111,7 +120,7 @@
 		});
 
 
-		function sort(index){
+		function sort(index) {
 
 			var filtered_missions = [];
 
@@ -119,7 +128,7 @@
 
 				if(element.site == locNames[index]){
 					filtered_missions.push(element);
-				}
+				};
 
 			});
 
@@ -127,92 +136,106 @@
 			animateLaunch();
 		};
 
-	  // draw the us map using the json
-	  function showMap() {
 
-	  	var width = 600,
-	  	height = 600;
+		function showMap() {
 
-	  	projection = d3.geoOrthographic()
-	  	.scale(300)
-	  	.rotate([100, -40, 0])
-	  	.translate([width / 2, height / 2])
-	  	.clipAngle(90)
-	  	.precision(.1);
+			var width = 600,
+			height = 600;
 
-	  	var path = d3.geoPath()
-	  	.projection(projection);
+			projection = d3.geoOrthographic()
+			.scale(300)
+			.rotate([100, -40, 0])
+			.translate([width / 2, height / 2])
+			.clipAngle(90)
+			.precision(.1);
 
-	  	var graticule = d3.geoGraticule();
+			var path = d3.geoPath()
+			.projection(projection);
 
-	  	var svg = d3.select("#globe")
-	  	.attr("width", width)
-	  	.attr("height", height);
+			var graticule = d3.geoGraticule();
 
-	  	svg.append("defs").append("path")
-	  	.datum({type: "Sphere"})
-	  	.attr("id", "sphere")
-	  	.attr("d", path);
+			var svg = d3.select("#globe")
+			.attr("width", width)
+			.attr("height", height);
 
-	  	svg.append("use")
-	  	.attr("class", "stroke")
-	  	.attr("xlink:href", "#sphere");
+			svg.append("defs").append("path")
+			.datum({type: "Sphere"})
+			.attr("id", "sphere")
+			.attr("d", path);
 
-	  	svg.append("use")
-	  	.attr("class", "fill")
-	  	.attr("xlink:href", "#sphere");
+			svg.append("use")
+			.attr("class", "stroke")
+			.attr("xlink:href", "#sphere");
 
-	  	svg.append("path")
-	  	.datum(graticule)
-	  	.attr("class", "graticule")
-	  	.attr("d", path);
+			svg.append("use")
+			.attr("class", "fill")
+			.attr("xlink:href", "#sphere");
 
-	  	arcs = svg.selectAll("path.arcs");
+			svg.append("path")
+			.datum(graticule)
+			.attr("class", "graticule")
+			.attr("d", path);
 
-	  	d3.json("world-50m.json", function(error, world) {
-	  		if (error) throw error;
+			arcs = svg.selectAll("path.arcs");
 
-	  		svg.insert("path", ".graticule")
-	  		.datum(topojson.feature(world, world.objects.land))
-	  		.attr("class", "land")
-	  		.attr("d", path);
+			d3.json("world-50m.json", function(error, world) {
+				if (error) throw error;
 
-	  		svg.insert("path", ".graticule")
-	  		.datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
-	  		.attr("class", "boundary")
-	  		.attr("d", path);
-	  	});
+				svg.insert("path", ".graticule")
+				.datum(topojson.feature(world, world.objects.land))
+				.attr("class", "land")
+				.attr("d", path);
 
-	  	d3.select(self.frameElement).style("height", height + "px");
+				svg.insert("path", ".graticule")
+				.datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
+				.attr("class", "boundary")
+				.attr("d", path);
+			});
 
-	  };
+			d3.select(self.frameElement).style("height", height + "px");
 
-	  function showLocations(points){
-
-	  	var circles = d3.select("#globe").selectAll("circle").data(points);
-	  	var randomNum = function(){
-	  		return Math.random()*20;
-	  	};
-
-	  	circles.exit().remove();
-
-	  	circles.enter().append("circle").attr("r", 5).attr("fill", "#E3E3E3")
-	  	.merge(circles)
-	  	.attr("cx", function(d) { return projection(d)[0]; })
-	  	.attr("cy", function(d) { return projection(d)[1]; });
-
-	  	circles.enter().append("text").text(function(d) { return d[2]; })
-	  	.attr("fill", "#E3E3E3")
-	  	.merge(circles)
-	  	.attr("x", function(d) { return projection(d)[0] + 5; })
-	  	.attr("y", function(d) { return projection(d)[1] - randomNum(); });
-
-	  };
+		};
 
 
-	  function showLaunches(filtered_missions){
+		function showLocations(points) {
 
-	  	var svg = d3.select("#globe");
+			var circles = d3.select("#globe").selectAll("circle")
+			.data(points);
+
+			var randomNum = function(){
+				return Math.random()*20;
+			};
+
+			circles.exit().remove();
+
+			circles.enter().append("circle")
+			.attr("r", 5)
+			.attr("fill", "#E3E3E3")
+			.merge(circles)
+			.attr("cx", function(d) { return projection(d)[0]; })
+			.attr("cy", function(d) { return projection(d)[1]; });
+
+			circles.enter().append("text")
+			.text(function(d) { return d[2]; })
+			.attr("fill", "#E3E3E3")
+			.merge(circles)
+			.attr("x", function(d) { return projection(d)[0] + 5; })
+			.attr("y", function(d) { 
+
+				if(d[2]=="Kennedy Space Center LC-39A"){
+					return projection(d)[1] + 20;
+				}else{
+					return projection(d)[1] - randomNum();
+				};
+				
+			});
+
+		};
+
+
+		function showLaunches(filtered_missions) {
+
+			var svg = d3.select("#globe");
 
 			arcs.exit().remove();
 			d3.selectAll(".arcs").remove();
@@ -229,7 +252,9 @@
 			.attr('d', function(d) {
 				return lngLatToArc(d, d["loc"], [-100.751114, 147.349442], 0)
 			})
-			.style("stroke", "#ff9a00")
+			.style("stroke", "#FFB270");
+
+			// MAKE IT SO THEY GO OUT OF THE MAP
 
 			d3.selectAll(".arcs").style("opacity", "0.5");
 
@@ -247,11 +272,10 @@
 			});
 
 			// launchColor = setInterval(animate, 100);
-
-			
 		};
 
-		function animate(){
+
+		function animate() {
 
 			if(blink == false){
 				d3.select("#globe").selectAll(".arcs")
@@ -268,15 +292,15 @@
 
 		};
 
-		// Creates animated planes flying above the routes on a day
+
 		function animateLaunch(){
 
 			var svg = d3.select("#globe");
 			var delay = 0;
 
-			function transition(plane, route) {
+			function transition(launch, route) {
 				var l = route.node().getTotalLength();
-				plane.transition()
+				launch.transition()
 				.duration(9500 + delay)
 				.attrTween("transform", delta(route.node()));
 			};
@@ -294,29 +318,28 @@
 						var r = 90 - Math.atan2(-y, x) * 180 / Math.PI;
 
 						var s = Math.min(Math.sin(Math.PI * t) * 0.7, 0.3);
-						return "translate(" + (p.x - 8) + "," + p.y + ") scale(" + s + ") rotate(" + r + ")";
+						return "translate(" + (p.x - 10) + "," + p.y + ") scale(" + s + ") rotate(" + r + ")";
 					};
 				};
 			};
 
 			d3.selectAll(".arcs").each(function(d,i){
 
-				var type = d["type"]
+				var type = d["type"];
 
 				var rocket = svg.append("svg:image")
 				.attr("class", "rocket")
-				.attr("width","10%")
-				.attr("height","10%")
-				.attr("fill","white")
+				.attr("width","15%")
+				.attr("height","15%")
 				.attr("xlink:href", function(d){
 
 					if(type == "Human Remains"){
-						return "icons/remains.png"
+						return "imgs/remains.png";
 					}else if(type== "Space Station Supplies"){
-						return "icons/supplies.png"
+						return "imgs/supplies.png";
 					}else{
-						return "icons/satellite.png"
-					}
+						return "imgs/satellite.png";
+					};
 
 				});
 
@@ -329,7 +352,7 @@
 			});
 		};
 
-		// Converts lontitude and lattitude to an arc on which the flight path is drawn
+
 		function lngLatToArc(d, sourceLngLat, targetLngLat, bend){
 
 			bend = bend || 1;
@@ -357,7 +380,6 @@
 				return "M0,0,l0,0z";
 			};
 		};
-
 
 	</script>
 
