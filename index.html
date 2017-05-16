@@ -32,6 +32,7 @@
 
 	<div class="svg-container">
 		<svg id="globe" class="globe"> </svg>
+		<svg id="missionOutcome" height = "300" width="300"></svg>
 	</div>
 
 	<script>
@@ -107,6 +108,7 @@
 
 			showMap();
 			showLocations(launchlocations);
+			//showSiteInfo();
 
 		});
 
@@ -115,6 +117,7 @@
 
 			var filtered_missions = [];
 
+
 			missions_set.forEach(function(element){
 
 				if(element.site == locNames[index]){
@@ -122,9 +125,10 @@
 				}
 
 			});
-
+			
 			showLaunches(filtered_missions);
 			animateLaunch();
+			showSiteInfo(filtered_missions);
 		};
 
 	  // draw the us map using the json
@@ -358,6 +362,56 @@
 			};
 		};
 
+		//pie charts for launch site data visualization
+		function showSiteInfo(data){
+			var outcomeSVG = d3.select("#missionOutcome");
+			 	width = +outcomeSVG.attr("width"),
+     			height = +outcomeSVG.attr("height"),
+     			radius = Math.min(width, height) / 2,
+     			g = outcomeSVG.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+			 var color = d3.scaleOrdinal(["#98abc5", "#8a89a6"]);
+			
+			 var outcomePieData = [{"label":"Success", "value":0}, 
+		          {"label":"Failure", "value":0}]
+			 
+			 data.forEach(function(d){
+			 	if(d.outcome == "Failure"){
+			 		outcomePieData[1].value +=1;
+			 	}
+			 	else{
+			 		outcomePieData[0].value +=1;
+			 	}
+			 });
+
+			console.log(outcomePieData);
+			  	var pie = d3.pie()
+     					.sort(null)
+    					.value(function(d) { return d.value; });
+
+				var path = d3.arc()
+    					.outerRadius(radius - 10)
+    					.innerRadius(0);
+
+				var label = d3.arc()
+   						.outerRadius(radius - 40)
+    					.innerRadius(radius - 40);
+
+    			var arc = g.selectAll(".arc")
+    					.data(pie(outcomePieData))
+    					.enter().append("g")
+    							.attr("class", "arc");
+
+    			arc.append("path")
+    				.attr("d", path)
+    				.attr("fill", function(d){return color(d.data.label);});
+
+    			arc.append("text")
+     				.attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
+      				.attr("dy", "0.35em")
+      				.text(function(d) { return d.data.label+" " + d.data.value; });
+	 		
+    	}
 
 	</script>
 
