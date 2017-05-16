@@ -386,6 +386,138 @@
 				return "M0,0,l0,0z";
 			};
 		};
+		
+
+		function outcomeInfo(data){
+			var outcomeSVG = d3.select("#missionOutcome");
+			width = +outcomeSVG.attr("width"),
+			height = +outcomeSVG.attr("height"),
+			radius = Math.min(width, height) / 2,
+			g = outcomeSVG.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+			var color = d3.scaleOrdinal(["#98abc5", "#8a89a6"]);
+			
+			var outcomePieData = [{"label":"Success", "value":0}, 
+			{"label":"Failure", "value":0}]
+
+			data.forEach(function(d){
+				if(d.outcome == "Failure"){
+					outcomePieData[1].value +=1;
+				}
+				else{
+					outcomePieData[0].value +=1;
+				}
+			});
+
+			var pie = d3.pie()
+			.sort(null)
+			.value(function(d) { return d.value; });
+
+			var path = d3.arc()
+			.outerRadius(radius - 10)
+			.innerRadius(0);
+
+			var label = d3.arc()
+			.outerRadius(radius - 40)
+			.innerRadius(radius - 40);
+
+			var arc = g.selectAll(".arc")
+			.data(pie(outcomePieData))
+			.enter().append("g")
+			.attr("class", "arc");
+
+			arc.append("path")
+			.attr("d", path)
+			.attr("fill", function(d){return color(d.data.label);});
+
+			arc.append("text")
+			.attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
+			.attr("dy", "0.35em")
+			.attr("fill", "white")
+			.text(function(d) { return d.data.label+" " + d.data.value; });
+
+			outcomeSVG.append("text")
+			.attr("x", 85)
+			.attr("y", height-15)
+			.text("Success and Failure Rate")
+			.attr("fill", "white")
+			.attr("font-size", "10pt")
+			.attr("font-anchor", "middle");		
+		}
+
+
+		function payloadInfo(data){
+			var payloadSVG = d3.select("#payloadType");
+			width = 300,
+			height = 400,
+			radius = 150,
+			g = payloadSVG.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+			var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56"]);
+			
+			var payloadPieData = [{"label":"Research", "value":0}, 
+			{"label":"Communication", "value":0}, 
+			{"label":"Human Remains", "value":0}, 
+			{"label":"Supplies", "value":0}, 
+			{"label":"Weather", "value":0}]
+
+			data.forEach(function(d){
+				if(d.type == "Research Satellite" || d.type == "Research Satellites" || d.type == "Communication/Research Satellite"){
+					payloadPieData[0].value +=1;
+				}
+				else if(d.type == "Communication Satellite" || d.type == "Communication/Research Satellite"){
+					payloadPieData[1].value +=1;
+				}
+				else if(d.type == "Human Remains"){
+					payloadPieData[2].value +=1;
+				}
+				else if(d.type == "Weather Satellite"){
+					payloadPieData[4].value +=1;
+				}
+				else if(d.type == "Space Station Supplies"){
+					payloadPieData[3].value +=1;
+				}
+			});
+			
+
+			var pie = d3.pie()
+			.sort(null)
+			.value(function(d) { return d.value; });
+
+			var path = d3.arc()
+			.outerRadius(radius - 10)
+			.innerRadius(0);
+
+			var label = d3.arc()
+			.outerRadius(radius - 40)
+			.innerRadius(radius - 40);
+
+			var arc = g.selectAll(".arc")
+			.data(pie(payloadPieData))
+			.enter().append("g")
+			.attr("class", "arc");
+
+			arc.append("path")
+			.attr("d", path)
+			.attr("fill", function(d){return color(d.data.label);});
+
+			if(function(d){return d.data.value == 0}){
+				console.log("returned true")
+				arc.append("text")
+				.attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
+				.attr("dy", "0.35em")
+				.attr("fill", "white")
+				.text(function(d){return d.data.label+" " + d.data.value});
+			};
+
+			payloadSVG.append("text")
+			.attr("x", 110)
+			.attr("y", height-15)
+			.text("Payload Types")
+			.attr("fill", "white")
+			.attr("font-size", "10pt")
+			.attr("font-anchor", "middle");		
+		}
 
 <<<<<<< HEAD
 		//pie charts for launch site data visualization
