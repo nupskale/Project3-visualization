@@ -82,9 +82,15 @@ button:active {
 }
 
 .arcs {
-  stroke-width: 1px;
+  stroke-width: 2px;
   fill: none;
 }
 
+.arc text {
+  font: 10px sans-serif;
+  text-anchor: middle;
+}
 
-
+.arc path {
+  stroke: #fff;
+}
