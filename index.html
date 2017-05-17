@@ -35,6 +35,44 @@
 	</div>
 
 	<div class="svg-container">
+
+		<div id="failedMission" class="orbit">
+			<div class="orbitTitle">
+				<h2>Failed Missions</h2>
+			</div>
+		</div>
+		
+		<div class="orbit">
+			<div class="orbitTitle">
+				<h2>High Earth Orbit</h2>
+			</div>
+			<div class="satelliteImages" id="highEarthOrbit"></div>
+		</div>
+		<div class="orbit">
+			<div class="orbitTitle">
+				<h2>GPS Satellites</h2>
+			</div>
+			<div class="satelliteImages" id="gpsSatellites"></div>
+		</div>
+		<div class="orbit">
+			<div class="orbitTitle">
+				<h2>Medium Earth Orbit</h2>
+			</div>
+			<div class="satelliteImages" id="mediumEarthOrbit"></div>
+		</div>
+		<div class="orbit">
+			<div class="orbitTitle">
+				<h2>Low Earth Orbit</h2>
+			</div>
+			<div class="satelliteImages" id="lowEarthOrbit"></div>
+		</div>
+		<div class="orbit">
+			<div class="orbitTitle">
+				<h2>Sea level</h2>
+			</div>
+			<div class="satelliteImages" id="seaLevel"></div>
+		</div>
+
 		<svg id="globe" class="globe"> </svg>
 		<br>
 		<svg id="missionOutcome" height = "400" width="300"></svg>
@@ -241,6 +279,8 @@
 
 		function showLaunches(filtered_missions) {
 
+			/*console.log(filtered_missions);*/
+
 			var svg = d3.select("#globe");
 
 			arcs.exit().remove();
@@ -329,9 +369,42 @@
 				};
 			};
 
+			function showSatellitesInOrbit(data, imageurl){
+				/*console.log(data);*/
+				//failedMission, highEarthOrbit, gpsSatellites, mediumEarthOrbit, lowEarthOrbit, seaLevel
+				var img = document.createElement("img");
+				img.src = imageurl;
+				img.height = 50;
+				img.width = 50;
+				img.className = "orbit-satellite";
+				var failedMission = document.getElementById("failedMission");
+				var highEarthOrbit = document.getElementById("highEarthOrbit");
+				var gpsSatellites = document.getElementById("gpsSatellites");
+				var mediumEarthOrbit = document.getElementById("mediumEarthOrbit");
+				var lowEarthOrbit = document.getElementById("lowEarthOrbit");
+				var seaLevel = document.getElementById("seaLevel");
+				
+				if(data.orbit == ""){
+					failedMission.appendChild(img);
+				}
+				if(data.orbit == "Polar Orbit" || data.orbit == "Sun/Earth Orbit"){
+					seaLevel.appendChild(img);
+				}
+				if(data.orbit == "Low Earth Orbit"){
+					lowEarthOrbit.appendChild(img);
+				}
+				if(data.orbit == "Geostationary Transfer Orbit"){
+					gpsSatellites.appendChild(img);
+				}
+			}
+
+
 			d3.selectAll(".arcs").each(function(d,i){
 
+				console.log(d);
+				var satellitedata = d;
 				var type = d["type"];
+				var imgUrl = "";
 
 				var rocket = svg.append("svg:image")
 				.attr("class", "rocket")
@@ -340,13 +413,14 @@
 				.attr("xlink:href", function(d){
 
 					if(type == "Human Remains"){
-						return "imgs/remains.png";
+						imgUrl = "imgs/remains.png";
 					}else if(type== "Space Station Supplies"){
-						return "imgs/supplies.png";
+						imgUrl = "imgs/supplies.png";
 					}else{
-						return "imgs/satellite.png";
+						imgUrl = "imgs/satellite.png";
 					};
-
+					showSatellitesInOrbit(satellitedata, imgUrl);
+					return imgUrl;
 				});
 
 				var trajectory = d3.select("#line" + i);

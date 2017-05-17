@@ -1,8 +1,12 @@
 body {
-  background: #222831;
+  background-color: #222831;
   color: white;
-  text-align: center;
+  /* text-align: center; */
   font-family: 'Roboto', sans-serif;
+}
+
+#title{
+  text-align: center;
 }
 
 button {
@@ -27,7 +31,7 @@ button:active {
 }
 
 #submenu {
-  margin: 60px auto;
+  text-align: center;
 }
 
 .stroke {
@@ -63,12 +67,44 @@ button:active {
   margin: 0 auto;
   margin-top: 30px;
   height: auto;
-  background-image: url(../imgs/orbits.png);
+  /* background-image: url(../imgs/orbits.png); */
   background-repeat: no-repeat;
+  text-align: center;
+}
+
+.orbit{
+  text-align: left;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  border-bottom: 2px solid #fff;
+  width: 100%;
+  float: left;
+}
+
+.orbit .orbitTitle{
+  width: 25%;
+  float: left;
+}
+
+.orbit .satelliteImages{
+  width: 75%;
+  float: right;
+}
+
+.orbit h2{
+  opacity: 0.7;
+  font-weight: lighter;
+  display: inline-block;
+  margin-top: 0;
+  margin-right: 20px;
+}
+
+.orbit img{
+  margin-right: 20px;
 }
 
 #globe{
-  margin: 496px 25% 50px;
+  /* margin: 496px 25% 50px; */
   border-radius: 50%;
   box-shadow:
   inset 0 0 50px #fff,
