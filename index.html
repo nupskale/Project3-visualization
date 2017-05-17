@@ -18,18 +18,18 @@
 	<h1 id="title"> Space X Missions</h1>
 
 	<div id="submenu">
-
+		<h3>Launch Sites</h3>
 		<button type="submit"  onclick="sort(0);">
-			<img id="btnImg"  src="imgs/button1.png" alt="submit" />
+			<a href="#globe"><img id="btnImg"  src="imgs/button1.png" alt="submit" /></a>
 		</button>
 		<button type="submit" onclick="sort(1);">
-			<img id="btnImg"  src="imgs/button2.png" alt="submit" />
+			<a href="#globe"><img id="btnImg"  src="imgs/button2.png" alt="submit" /></a>
 		</button>
 		<button type="submit" onclick="sort(2);">
-			<img id="btnImg" src="imgs/button3.png" alt="submit" />
+			<a href="#globe"><img id="btnImg" src="imgs/button3.png" alt="submit" /></a>
 		</button>
 		<button type="submit" onclick="sort(3);">
-			<img id="btnImg"  src="imgs/button4.png"  alt="submit" />
+			<a href="#globe"><img id="btnImg"  src="imgs/button4.png"  alt="submit" /></a>
 		</button>
 
 	</div>
@@ -74,6 +74,11 @@
 			<div class="satelliteImages" id="seaLevel"></div>
 		</div>
 
+<!-- <div id="outerOrbit">
+	<div id="innerOrbit">
+		<svg id="globe" class="globe"> </svg>
+	</div>
+</div> -->
 		<svg id="globe" class="globe"> </svg>
 		<br>
 		<svg id="missionOutcome" height = "400" width="300"></svg>
@@ -160,7 +165,6 @@
 			showLocations(launchlocations);
 
 		});
-
 
 		function sort(index) {
 
@@ -264,7 +268,7 @@
 			.text(function(d) { return d[2]; })
 			.attr("fill", "#E3E3E3")
 			.merge(circles)
-			.attr("x", function(d) { return projection(d)[0] + 5; })
+			.attr("x", function(d) { return projection(d)[0] + 15; })
 			.attr("y", function(d) { 
 
 				if(d[2]=="Kennedy Space Center LC-39A"){

@@ -34,6 +34,15 @@ button:active {
   text-align: center;
 }
 
+#submenu h3{
+  display: inline-block;
+  margin: 0;
+  vertical-align: top;
+  margin-top: 15px;
+  font-weight: lighter;
+  color: skyblue;
+}
+
 .stroke {
   fill: none;
   stroke: #455D7A;
@@ -127,6 +136,7 @@ button:active {
 
 .orbit img{
   margin-right: 20px;
+  cursor: pointer;
 }
 
 #globe{
@@ -156,3 +166,24 @@ button:active {
 .arc path {
   stroke: #fff;
 }
+
+/* extra */
+/* #outerOrbit {
+  border-radius: 50%;
+  border: 1px solid red;
+  width: 800px;
+  height: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+#globe{
+  position: absolute;
+  top: 12%;
+  left: 13%;
+}
+
+.fly{
+  height: 40px;
+  width: 40px;
+} */
