@@ -91,6 +91,32 @@ button:active {
   float: right;
 }
 
+.orbit-satellite{
+  animation: 10s fadeIn;
+}
+
+.orbit-satellite.failure{
+  background-color: #ff1a1a;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.orbit-satellite.success{
+  background-color: #59b300;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
 .orbit h2{
   opacity: 0.7;
   font-weight: lighter;

@@ -36,10 +36,11 @@
 
 	<div class="svg-container">
 
-		<div id="failedMission" class="orbit">
+		<div class="orbit">
 			<div class="orbitTitle">
 				<h2>Failed Missions</h2>
 			</div>
+			<div class="satelliteImages" id="failedMission"></div>
 		</div>
 		
 		<div class="orbit">
@@ -369,23 +370,33 @@
 				};
 			};
 
+			var failedMission = document.getElementById("failedMission");
+			var highEarthOrbit = document.getElementById("highEarthOrbit");
+			var gpsSatellites = document.getElementById("gpsSatellites");
+			var mediumEarthOrbit = document.getElementById("mediumEarthOrbit");
+			var lowEarthOrbit = document.getElementById("lowEarthOrbit");
+			var seaLevel = document.getElementById("seaLevel");
+			failedMission.innerHTML = "";
+			highEarthOrbit.innerHTML = "";
+			gpsSatellites.innerHTML = "";
+			mediumEarthOrbit.innerHTML = "";
+			lowEarthOrbit.innerHTML = "";
+			seaLevel.innerHTML = "";
+
 			function showSatellitesInOrbit(data, imageurl){
-				/*console.log(data);*/
 				//failedMission, highEarthOrbit, gpsSatellites, mediumEarthOrbit, lowEarthOrbit, seaLevel
+    			
 				var img = document.createElement("img");
 				img.src = imageurl;
-				img.height = 50;
-				img.width = 50;
+				img.height = 40;
+				img.width = 40;
 				img.className = "orbit-satellite";
-				var failedMission = document.getElementById("failedMission");
-				var highEarthOrbit = document.getElementById("highEarthOrbit");
-				var gpsSatellites = document.getElementById("gpsSatellites");
-				var mediumEarthOrbit = document.getElementById("mediumEarthOrbit");
-				var lowEarthOrbit = document.getElementById("lowEarthOrbit");
-				var seaLevel = document.getElementById("seaLevel");
 				
 				if(data.orbit == ""){
 					failedMission.appendChild(img);
+					img.setAttribute("class", "orbit-satellite failure");
+				}else{
+					img.setAttribute("class", "orbit-satellite success");
 				}
 				if(data.orbit == "Polar Orbit" || data.orbit == "Sun/Earth Orbit"){
 					seaLevel.appendChild(img);
@@ -401,7 +412,7 @@
 
 			d3.selectAll(".arcs").each(function(d,i){
 
-				console.log(d);
+				/*console.log(d);*/
 				var satellitedata = d;
 				var type = d["type"];
 				var imgUrl = "";
