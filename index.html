@@ -90,6 +90,7 @@
 		<p style="font-size: 26px"> Percentages Display for Mission Outcomes, Payload Type. </p>
 		<svg id="missionOutcomeDisplay" height = "400" width="300"></svg>
 		<svg id="payloadType" height = "400" width="300"></svg>
+		<svg id="countryTypes" height = "400" width="300"></svg>
 	</div>
 </div>
 
@@ -225,6 +226,7 @@
 			animateLaunch();
 			outcomeInfo(filtered_missions);
 			payloadInfo(filtered_missions);
+			countryInfo(filtered_missions);
 		};
 
 
@@ -521,12 +523,13 @@
 
 		function outcomeInfo(data){
 			var outcomeSVG = d3.select("#missionOutcomeDisplay");
+			outcomeSVG.selectAll("*").remove();
 			width = +outcomeSVG.attr("width"),
 			height = +outcomeSVG.attr("height"),
 			radius = Math.min(width, height) / 2,
 			g = outcomeSVG.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-			var color = d3.scaleOrdinal(["#98abc5", "#8a89a6"]);
+			var color = d3.scaleOrdinal(["#BFF2E2", "#7FD3B9"]);
 			
 			var outcomePieData = [{"label":"Success", "value":0}, 
 			{"label":"Failure", "value":0}]
@@ -564,7 +567,7 @@
 			arc.append("text")
 			.attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
 			.attr("dy", "0.35em")
-			.attr("fill", "white")
+			.attr("fill", "black")
 			.text(function(d) { return d.data.label+" " + d.data.value; });
 
 			outcomeSVG.append("text")
@@ -585,7 +588,7 @@
 			radius = 150,
 			g = payloadSVG.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-			var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56"]);
+			var color = d3.scaleOrdinal(["#E9FAF5", "#BFF2E2", "#95EACF", "#66A994", "#33554A"]);
 			
 			var payloadPieData = [];
 			var researchValue=0;
@@ -632,8 +635,6 @@
 				payloadPieData.push(temp);
 			}
 
-			console.log(payloadPieData);
-
 			var pie = d3.pie()
 			.sort(null)
 			.value(function(d) { return d.value; });
@@ -660,7 +661,7 @@
 				arc.append("text")
 				.attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
 				.attr("dy", "1em")
-				.attr("fill", "white")
+				.attr("fill", "black")
 				.text(function(d){return d.data.label+" " + d.data.value});
 			};
 
@@ -668,6 +669,150 @@
 			.attr("x", 110)
 			.attr("y", height-15)
 			.text("Payload Types")
+			.attr("fill", "white")
+			.attr("font-size", "10pt")
+			.attr("font-anchor", "middle");		
+		}
+
+		function countryInfo(data){
+			var countrySVG = d3.select("#countryTypes");
+			countrySVG.selectAll("*").remove();
+			width = 300,
+			height = 400,
+			radius = 150,
+			g = countrySVG.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+			var color = d3.scaleOrdinal(["#E9FAF5", "#D4F6EC", "#BFF2E2", "#AAEED9", "#95EACF", "#7FD3B9", "#66A994", "#4C7F6F", "#33554A"]);
+			
+			var countryPieData = [];
+			var USValue=0;
+			var MalaysiaValue=0;
+			var CanadaValue=0;
+			var LuxembourgValue=0;
+			var ThaiValue=0;
+			var ChinaValue=0;
+			var BermudaValue=0;
+			var FranceValue=0;
+			var TurkmenistanValue=0;
+			var JapanValue=0;
+			var IsraelValue=0;
+			data.forEach(function(d){
+				if(d.country == "United States"){
+					USValue +=1;
+				}
+				else if(d.country == "Malaysia"){
+					MalaysiaValue +=1;
+				}
+				else if(d.country == "Canada"){
+					CanadaValue +=1;
+				}
+				else if(d.country == "Luxembourg"){
+					LuxembourgValue +=1;
+				}
+				else if(d.country == "Thailand"){
+					ThaiValue +=1;
+				}
+				else if(d.country == "China"){
+					ChinaValue +=1;
+				}
+				else if(d.country == "Bermuda"){
+					BermudaValue +=1;
+				}
+				else if(d.country == "France (Mexico)"){
+					FranceValue +=1;
+				}
+				else if(d.country == "Turkmenistan"){
+					TurkmenistanValue +=1;
+				}
+				else if(d.country == "Japan"){
+					JapanValue +=1;
+				}
+				else if(d.country == "Israel"){
+					IsraelValue +=1;
+				}
+			});
+
+			if(USValue != 0){
+				var temp={"label":"US", "value":USValue};
+				countryPieData.push(temp);
+			}
+			if(MalaysiaValue != 0){
+				var temp={"label":"Malaysia", "value":MalaysiaValue};
+				countryPieData.push(temp);
+			}
+			if(CanadaValue != 0){
+				var temp={"label":"Canada", "value":CanadaValue};
+				countryPieData.push(temp);
+			}
+			if(LuxembourgValue != 0){
+				var temp={"label":"Luxembourg", "value":LuxembourgValue};
+				countryPieData.push(temp);
+			}
+			if(ThaiValue != 0){
+				var temp={"label":"Thailand", "value":ThaiValue};
+				countryPieData.push(temp);
+			}
+			if(ChinaValue != 0){
+				var temp={"label":"China", "value":ChinaValue};
+				countryPieData.push(temp);
+			}
+			if(BermudaValue != 0){
+				var temp={"label":"Bermuda", "value":BermudaValue};
+				countryPieData.push(temp);
+			}
+			if(FranceValue != 0){
+				var temp={"label":"France", "value":FranceValue};
+				countryPieData.push(temp);
+			}
+			if(TurkmenistanValue != 0){
+				var temp={"label":"Turkmenistan", "value":TurkmenistanValue};
+				countryPieData.push(temp);
+			}
+			if(JapanValue != 0){
+				var temp={"label":"Japan", "value":JapanValue};
+				countryPieData.push(temp);
+			}
+			if(IsraelValue != 0){
+				var temp={"label":"Israel", "value":IsraelValue};
+				countryPieData.push(temp);
+			}
+
+			console.log(countryPieData);
+
+			var pie = d3.pie()
+			.sort(null)
+			.value(function(d) { return d.value; });
+
+			var path = d3.arc()
+			.outerRadius(radius - 10)
+			.innerRadius(0);
+
+			var label = d3.arc()
+			.outerRadius(radius - 40)
+			.innerRadius(radius - 40);
+
+			var arc = g.selectAll(".arc")
+			.data(pie(countryPieData))
+			.enter().append("g")
+			.attr("class", "arc");
+
+			arc.append("path")
+			.attr("d", path)
+			.attr("fill", function(d){return color(d.data.label);});
+
+			if(function(d){return d.data.value == 0}){
+				console.log("returned true")
+				arc.append("text")
+				.attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
+				.attr("dy", "1em")
+				.attr("fill", "black")
+				.text(function(d){return d.data.label+" " + d.data.value});
+			};
+
+			countrySVG.append("text")
+			.attr("x", 110)
+			.attr("y", height-15)
+			.text("Countries")
 			.attr("fill", "white")
 			.attr("font-size", "10pt")
 			.attr("font-anchor", "middle");		
