@@ -22,6 +22,7 @@
 		<p id="outcomeReason"></p>
 	</div>
 	<div id="modalContainer">
+
 	<h1 id="title"> Space X Missions</h1>
 
 	<div id="submenu">
@@ -38,7 +39,6 @@
 		<button type="submit" onclick="sort(3, 'btnImg');">
 			<a href="#globe"><img class="btnImg"  src="imgs/button4.png"  alt="submit" /></a>
 		</button>
-
 	</div>
 
 	<div class="svg-container">
@@ -83,10 +83,11 @@
 
 		<svg id="globe" class="globe"> </svg>
 		<br>
-		<svg id="missionOutcome" height = "400" width="300"></svg>
+		<svg id="missionOutcomeDisplay" height = "400" width="300"></svg>
 		<svg id="payloadType" height = "400" width="300"></svg>
 	</div>
 </div>
+
 	<script>
 
 		var missions_set = [];
@@ -511,7 +512,7 @@
 		
 
 		function outcomeInfo(data){
-			var outcomeSVG = d3.select("#missionOutcome");
+			var outcomeSVG = d3.select("#missionOutcomeDisplay");
 			width = +outcomeSVG.attr("width"),
 			height = +outcomeSVG.attr("height"),
 			radius = Math.min(width, height) / 2,
