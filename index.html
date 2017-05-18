@@ -47,13 +47,6 @@
 
 		<div class="orbit">
 			<div class="orbitTitle">
-				<h2>Failed Missions</h2>
-			</div>
-			<div class="satelliteImages" id="failedMission"></div>
-		</div>
-		
-		<div class="orbit">
-			<div class="orbitTitle">
 				<h2>High Earth Orbit</h2>
 			</div>
 			<div class="satelliteImages" id="highEarthOrbit"></div>
@@ -81,6 +74,13 @@
 				<h2>Sea level</h2>
 			</div>
 			<div class="satelliteImages" id="seaLevel"></div>
+		</div>
+		<div class="orbit">
+			<div class="orbitTitle">
+				<h2>Failed Missions</h2>
+				<h5>(did not reach any orbit)</h5>
+			</div>
+			<div class="satelliteImages" id="failedMission"></div>
 		</div>
 
 		<svg id="globe" class="globe"> </svg>
@@ -434,7 +434,7 @@
 				img.width = 40;
 				img.className = "orbit-satellite";
 
-				if(data.orbit == ""){
+				if(data.orbit == "" || data.outcome == "Failure"){
 					failedMission.appendChild(img);
 					img.setAttribute("class", "orbit-satellite failure");
 				}else{
