@@ -15,7 +15,8 @@
 
 <body>
 	<div id="modal">
-		<h2 id="satelliteType"></h2>
+		<h2 id="satelliteName"></h2>
+		<h4 id="satelliteType"></h4>
 		<p id="customerName"></p>
 		<p id="countryName"></p>
 		<p id="missionOutcome"></p>
@@ -112,6 +113,7 @@
 			console.log(data);
 			data = data.split(',');
 			//satelliteType, customerName, countryName, missionOutcome, outcomeReason
+			document.getElementById("satelliteName").innerHTML = data[6];
 			document.getElementById("satelliteType").innerHTML = data[5];
 			document.getElementById("customerName").innerHTML = data[0]+", "+data[1];
 			document.getElementById("countryName").innerHTML = data[2];
@@ -124,10 +126,11 @@
 		
 
 		class mission {
-			constructor(day, month, year, loc, site, type, orbit, costumer, country, costumer_type, outcome, reason) {
+			constructor(day, month, year, name, loc, site, type, orbit, costumer, country, costumer_type, outcome, reason) {
 				this.day = day;
 				this.month = month;
 				this.year = year;
+				this.name = name;
 				this.loc = loc;
 				this.site = site;
 				this.type = type;
@@ -168,6 +171,7 @@
 					element.Day,
 					element.Month,
 					element.Year,
+					element["Payload Name"],
 					0,
 					element["Launch Site"],
 					element["Payload Type"],
@@ -445,7 +449,7 @@
 				if(data.orbit == "Geostationary Transfer Orbit"){
 					gpsSatellites.appendChild(img);
 				}
-				img.setAttribute("onclick", "showSatelliteDetails("+"'"+[data.costumer, data.costumer_type, data.country, data.outcome, data.reason, data.type]+"'"+")");
+				img.setAttribute("onclick", "showSatelliteDetails("+"'"+[data.costumer, data.costumer_type, data.country, data.outcome, data.reason, data.type, data.name]+"'"+")");
 			}
 
 

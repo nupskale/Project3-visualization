@@ -186,7 +186,7 @@ button:active {
   background-image: url("https://ak3.picdn.net/shutterstock/videos/11621657/thumb/1.jpg");
   background-position: -100px;
   width: 500px;
-  height: 200px;
+  height: auto;
   text-align: center;
   padding: 30px;
   opacity: 1;
