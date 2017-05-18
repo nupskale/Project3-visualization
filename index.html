@@ -86,6 +86,8 @@
 
 		<svg id="globe" class="globe"> </svg>
 		<br>
+		<br>
+		<p style="font-size: 26px"> Percentages Display for Mission Outcomes, Payload Type. </p>
 		<svg id="missionOutcomeDisplay" height = "400" width="300"></svg>
 		<svg id="payloadType" height = "400" width="300"></svg>
 	</div>
@@ -577,6 +579,7 @@
 
 		function payloadInfo(data){
 			var payloadSVG = d3.select("#payloadType");
+			payloadSVG.selectAll("*").remove();
 			width = 300,
 			height = 400,
 			radius = 150,
@@ -584,30 +587,52 @@
 
 			var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56"]);
 			
-			var payloadPieData = [{"label":"Research", "value":0}, 
-			{"label":"Communication", "value":0}, 
-			{"label":"Human Remains", "value":0}, 
-			{"label":"Supplies", "value":0}, 
-			{"label":"Weather", "value":0}]
-
+			var payloadPieData = [];
+			var researchValue=0;
+			var communicationValue=0;
+			var humanRemainValue=0;
+			var suppliesValue=0;
+			var weatherValue=0;
 			data.forEach(function(d){
 				if(d.type == "Research Satellite" || d.type == "Research Satellites" || d.type == "Communication/Research Satellite"){
-					payloadPieData[0].value +=1;
+					researchValue +=1;
 				}
 				else if(d.type == "Communication Satellite" || d.type == "Communication/Research Satellite"){
-					payloadPieData[1].value +=1;
+					communicationValue +=1;
 				}
 				else if(d.type == "Human Remains"){
-					payloadPieData[2].value +=1;
+					humanRemainValue+=1;
 				}
 				else if(d.type == "Weather Satellite"){
-					payloadPieData[4].value +=1;
+					weatherValue +=1;
 				}
 				else if(d.type == "Space Station Supplies"){
-					payloadPieData[3].value +=1;
+					suppliesValue +=1;
 				}
 			});
-			
+
+			if(weatherValue != 0){
+				var temp={"label":"Weather", "value":weatherValue};
+				payloadPieData.push(temp);
+			}
+			if(researchValue != 0){
+				var temp={"label":"Research", "value":researchValue};
+				payloadPieData.push(temp);
+			}
+			if(communicationValue != 0){
+				var temp={"label":"Communication", "value":communicationValue};
+				payloadPieData.push(temp);
+			}
+			if(humanRemainValue != 0){
+				var temp={"label":"Human Remains", "value":humanRemainValue};
+				payloadPieData.push(temp);
+			}
+			if(suppliesValue != 0){
+				var temp={"label":"Supplies", "value":suppliesValue};
+				payloadPieData.push(temp);
+			}
+
+			console.log(payloadPieData);
 
 			var pie = d3.pie()
 			.sort(null)
@@ -634,7 +659,7 @@
 				console.log("returned true")
 				arc.append("text")
 				.attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
-				.attr("dy", "0.35em")
+				.attr("dy", "1em")
 				.attr("fill", "white")
 				.text(function(d){return d.data.label+" " + d.data.value});
 			};
