@@ -614,10 +614,6 @@
 				}
 			});
 
-			if(weatherValue != 0){
-				var temp={"label":"Weather", "value":weatherValue};
-				payloadPieData.push(temp);
-			}
 			if(researchValue != 0){
 				var temp={"label":"Research", "value":researchValue};
 				payloadPieData.push(temp);
@@ -632,6 +628,10 @@
 			}
 			if(suppliesValue != 0){
 				var temp={"label":"Supplies", "value":suppliesValue};
+				payloadPieData.push(temp);
+			}
+			if(weatherValue != 0){
+				var temp={"label":"Weather", "value":weatherValue};
 				payloadPieData.push(temp);
 			}
 
@@ -682,7 +682,7 @@
 			radius = 150,
 			g = countrySVG.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-			var color = d3.scaleOrdinal(["#E9FAF5", "#D4F6EC", "#BFF2E2", "#AAEED9", "#95EACF", "#7FD3B9", "#66A994", "#4C7F6F", "#33554A"]);
+			var color = d3.scaleOrdinal(["#D4F6EC","#AAEED9", "#7FD3B9", "#4C7F6F","#33554A","#66A994","#95EACF","#BFF2E2", "#E9FAF5"]);
 			
 			var countryPieData = [];
 			var USValue=0;
