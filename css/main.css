@@ -3,6 +3,7 @@ body {
   color: white;
   /* text-align: center; */
   font-family: 'Roboto', sans-serif;
+  position: relative;
 }
 
 #title{
@@ -25,7 +26,7 @@ button:active {
   transform: translateY(4px);
 }
 
-#btnImg {
+.btnImg {
   width: 170px; 
   height: 55px;
 }
@@ -167,23 +168,24 @@ button:active {
   stroke: #fff;
 }
 
-/* extra */
-/* #outerOrbit {
-  border-radius: 50%;
-  border: 1px solid red;
-  width: 800px;
-  height: 800px;
-  margin: 0 auto;
-  position: relative;
+.selected-btn{
+  border: 2px solid skyblue;
+  border-radius: 15px;
 }
 
-#globe{
-  position: absolute;
-  top: 12%;
-  left: 13%;
+#modal{
+  display: none;
+  position: fixed;
+  color: black;
+  background-color: white;
+  left: 30%;
+  right: auto;
+  width: 500px;
+  height: 200px;
+  text-align: center;
+  padding: 20px;
+  top: 20%;
+  opacity: 1;
+  border-radius: 10px;
+  z-index: 1000000;
 }
-
-.fly{
-  height: 40px;
-  width: 40px;
-} */

@@ -14,22 +14,29 @@
 </head>
 
 <body>
-
+	<div id="modal">
+		<h2 id="satelliteType"></h2>
+		<p id="customerName"></p>
+		<p id="countryName"></p>
+		<p id="missionOutcome"></p>
+		<p id="outcomeReason"></p>
+	</div>
+	<div id="modalContainer">
 	<h1 id="title"> Space X Missions</h1>
 
 	<div id="submenu">
 		<h3>Launch Sites</h3>
-		<button type="submit"  onclick="sort(0);">
-			<a href="#globe"><img id="btnImg"  src="imgs/button1.png" alt="submit" /></a>
+		<button type="submit"  onclick="sort(0, 'btnImg');">
+			<a href="#globe"><img class="btnImg"  src="imgs/button1.png" alt="submit" /></a>
 		</button>
-		<button type="submit" onclick="sort(1);">
-			<a href="#globe"><img id="btnImg"  src="imgs/button2.png" alt="submit" /></a>
+		<button type="submit" onclick="sort(1, 'btnImg');">
+			<a href="#globe"><img class="btnImg"  src="imgs/button2.png" alt="submit" /></a>
 		</button>
-		<button type="submit" onclick="sort(2);">
-			<a href="#globe"><img id="btnImg" src="imgs/button3.png" alt="submit" /></a>
+		<button type="submit" onclick="sort(2, 'btnImg');">
+			<a href="#globe"><img class="btnImg" src="imgs/button3.png" alt="submit" /></a>
 		</button>
-		<button type="submit" onclick="sort(3);">
-			<a href="#globe"><img id="btnImg"  src="imgs/button4.png"  alt="submit" /></a>
+		<button type="submit" onclick="sort(3, 'btnImg');">
+			<a href="#globe"><img class="btnImg"  src="imgs/button4.png"  alt="submit" /></a>
 		</button>
 
 	</div>
@@ -74,17 +81,12 @@
 			<div class="satelliteImages" id="seaLevel"></div>
 		</div>
 
-<!-- <div id="outerOrbit">
-	<div id="innerOrbit">
-		<svg id="globe" class="globe"> </svg>
-	</div>
-</div> -->
 		<svg id="globe" class="globe"> </svg>
 		<br>
 		<svg id="missionOutcome" height = "400" width="300"></svg>
 		<svg id="payloadType" height = "400" width="300"></svg>
 	</div>
-
+</div>
 	<script>
 
 		var missions_set = [];
@@ -93,6 +95,30 @@
 		var locNames = ["Cape Canaveral AFS LC-40", "Marshall Islands", "Vandenberg AFB SLC-4E", "Kennedy Space Center LC-39A"];
 		var arcs;
 		var blink = false;
+
+		var dismissModal = document.querySelector("#modal");
+
+		dismissModal.onclick = function(){
+			document.getElementById("modal").style.display = "none";
+			document.getElementById("modalContainer").style.backgroundColor = "transparent";
+			document.getElementById("modalContainer").style.opacity = 1;
+		}
+
+		function showSatelliteDetails(data){
+			//customer, customer_type, Country, outcome, reason, type of satellite
+			//data.costumer, data.costumer_type, data.country, data.outcome, data.reason, data.type
+			console.log(data);
+			data = data.split(',');
+			//satelliteType, customerName, countryName, missionOutcome, outcomeReason
+			document.getElementById("satelliteType").innerHTML = data[5];
+			document.getElementById("customerName").innerHTML = data[0]+", "+data[1];
+			document.getElementById("countryName").innerHTML = data[2];
+			document.getElementById("missionOutcome").innerHTML = data[3];
+			document.getElementById("outcomeReason").innerHTML = data[4];
+			document.getElementById("modal").style.display = "block";
+			document.getElementById("modalContainer").style.backgroundColor = "grey";
+			document.getElementById("modalContainer").style.opacity = 0.5;
+		}
 		
 
 		class mission {
@@ -166,7 +192,14 @@
 
 		});
 
-		function sort(index) {
+		function sort(index, btnelem) {
+			var btn = document.getElementsByClassName(btnelem);
+
+			for(var i=0; i<btn.length; i++){
+				btn[i].classList.remove('selected-btn');
+			};
+			
+			btn[index].classList.add('selected-btn');
 
 			var filtered_missions = [];
 
@@ -389,13 +422,12 @@
 
 			function showSatellitesInOrbit(data, imageurl){
 				//failedMission, highEarthOrbit, gpsSatellites, mediumEarthOrbit, lowEarthOrbit, seaLevel
-    			
 				var img = document.createElement("img");
 				img.src = imageurl;
 				img.height = 40;
 				img.width = 40;
 				img.className = "orbit-satellite";
-				
+
 				if(data.orbit == ""){
 					failedMission.appendChild(img);
 					img.setAttribute("class", "orbit-satellite failure");
@@ -411,6 +443,7 @@
 				if(data.orbit == "Geostationary Transfer Orbit"){
 					gpsSatellites.appendChild(img);
 				}
+				img.setAttribute("onclick", "showSatelliteDetails("+"'"+[data.costumer, data.costumer_type, data.country, data.outcome, data.reason, data.type]+"'"+")");
 			}
 
 
