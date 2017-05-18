@@ -44,8 +44,9 @@
 	</div>
 
 	<div class="svg-container">
-
 		<div class="orbit">
+		<img src="imgs/legend.png" alt="legend" height="30" width="700"/>
+		<br>
 			<div class="orbitTitle">
 				<h2>High Earth Orbit</h2>
 			</div>
@@ -115,8 +116,8 @@
 			//satelliteType, customerName, countryName, missionOutcome, outcomeReason
 			document.getElementById("satelliteName").innerHTML = data[6];
 			document.getElementById("satelliteType").innerHTML = data[5];
-			document.getElementById("customerName").innerHTML = data[0]+", "+data[1];
-			document.getElementById("countryName").innerHTML = data[2];
+			document.getElementById("customerName").innerHTML = "Customer: "+data[0]+", "+data[1];
+			document.getElementById("countryName").innerHTML = "Country: "+ data[2];
 			document.getElementById("missionOutcome").innerHTML = data[3];
 			document.getElementById("outcomeReason").innerHTML = data[4];
 			document.getElementById("modal").style.display = "block";
