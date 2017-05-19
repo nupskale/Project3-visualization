@@ -238,3 +238,7 @@ button a {
 #pieCharts {
   margin-top: 70px;
 }
+
+#lineGraphSVG{
+  padding: 20px;
+}
