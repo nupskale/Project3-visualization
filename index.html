@@ -26,6 +26,7 @@
 	<div id="modalContainer">
 
 	<h1 id="title"> Space X Missions</h1>
+	<p id="intro" style="font-size: 14pt"> This is a data visualization of all the satellite missions from SpaceX. SpaceX is a private organization which designs, manufactures, and launches advanced rockets and spacecrafts for clients all across the globe. The visualization below displays the 39 satellite missions from the 4 different launch sites that associated with SpaceX. </p>
 
 	<div id="submenu">
 		<h3>Launch Sites</h3>
@@ -87,7 +88,9 @@
 		<svg id="globe" class="globe"> </svg>
 		<br>
 		<br>
-		<p style="font-size: 26px"> Percentages Display for Mission Outcomes, Payload Type. </p>
+		<p style="font-size: 26px"> Percentages Display for Mission Outcomes, Payload Types, and Countries. </p>
+		<p id="intro" style="font-size: 14pt">The piecharts display crucial data visualizations of the percentage of mission outcomes, payload, and countries for the satellites that launched on each launch sites. It is aimed to provide more detailed of the launched satellites. The “Success and Failure Outcomes” displays the numbers of success launches and failed launches; the “Payload Types” displays the different types and uses of the satellites; and the “Countries” displays the countries that the customers of SpaceX  from on each launch site.  </p>
+
 		<svg id="missionOutcomeDisplay" height = "400" width="300"></svg>
 		<svg id="payloadType" height = "400" width="300"></svg>
 		<svg id="countryTypes" height = "400" width="300"></svg>
@@ -573,7 +576,7 @@
 			outcomeSVG.append("text")
 			.attr("x", 85)
 			.attr("y", height-15)
-			.text("Success and Failure Rate")
+			.text("Success and Failure Outcomes")
 			.attr("fill", "white")
 			.attr("font-size", "10pt")
 			.attr("font-anchor", "middle");		
@@ -619,7 +622,7 @@
 				payloadPieData.push(temp);
 			}
 			if(communicationValue != 0){
-				var temp={"label":"Communication", "value":communicationValue};
+				var temp={"label":"Comm.", "value":communicationValue};
 				payloadPieData.push(temp);
 			}
 			if(humanRemainValue != 0){
