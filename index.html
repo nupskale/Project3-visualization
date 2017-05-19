@@ -17,6 +17,7 @@
 
 	<div id="modal">
 		<h2 id="satelliteName"></h2>
+		<h3 id="satelliteDate"></h3>
 		<h4 id="satelliteType"></h4>
 		<p id="customerName"></p>
 		<p id="customerType"></p>
@@ -450,6 +451,8 @@
 				.style("display", "block");
 
 				document.getElementById("satelliteName").innerHTML = satellite.name;
+				document.getElementById("satelliteDate").innerHTML = "Launched on: " + 
+				satellite.month + "/" + satellite.day + "/" + satellite.year;
 				document.getElementById("satelliteType").innerHTML = satellite.type;
 				document.getElementById("customerName").innerHTML = "Customer: " + satellite.customer;
 				document.getElementById("customerType").innerHTML = "Type of Customer: " + satellite.customer_type;
@@ -466,6 +469,8 @@
 			d3.selectAll(".orbit-satellite").remove();
 
 			d3.selectAll(".rocket").remove();
+
+			d3.select("#pieCharts").selectAll("text").remove();
 
 			d3.selectAll(".arcs").each(function(d,i){
 
@@ -500,8 +505,10 @@
 
 			d3.select("#pieCharts").select("p")
 			.append("text")
+			.attr("id","pieTitle")
 			.text("Percentages Display for Mission Outcomes & Payload Type")
-			.append("text")
+			
+			d3.select("#pieCharts").append("text")
 			.attr("id", "intro")
 			.text("The piecharts display crucial data visualizations of the percentage of mission outcomes, payload, and countries for the satellites that launched on each launch sites. It is aimed to provide more detailed of the launched satellites. The “Success and Failure Outcomes” displays the numbers of success launches and failed launches; the “Payload Types” displays the different types and uses of the satellites; and the “Countries” displays the countries that the customers of SpaceX  from on each launch site.  ");
 		};
