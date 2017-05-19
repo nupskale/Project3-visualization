@@ -30,6 +30,8 @@
 
 		<h1 id="title"> Space X Missions</h1>
 
+		<p id="intro" style="font-size: 14pt"> This is a data visualization of all the satellite missions from SpaceX. SpaceX is a private organization which designs, manufactures, and launches advanced rockets and spacecrafts for clients all across the globe. The visualization below displays the 39 satellite missions from the 4 different launch sites that associated with SpaceX. </p>
+
 		<div id="submenu">
 			<h3>Launch Sites</h3>
 			
@@ -107,6 +109,7 @@
 			<div id="pieCharts">
 				<p style="font-size: 26px"></p>
 			</div>
+			<p id="intro" style="font-size: 14pt"></p>
 			<svg id="missionOutcomeDisplay" height = "400" width="300"></svg>
 			<svg id="payloadType" height = "400" width="300"></svg>
 			<svg id="countryTypes" height = "400" width="300"></svg>
@@ -491,7 +494,10 @@
 
 			d3.select("#pieCharts").select("p")
 			.append("text")
-			.text("Percentages Display for Mission Outcomes & Payload Type");
+			.text("Percentages Display for Mission Outcomes & Payload Type")
+			.append("text")
+			.attr("id", "intro")
+			.text("The piecharts display crucial data visualizations of the percentage of mission outcomes, payload, and countries for the satellites that launched on each launch sites. It is aimed to provide more detailed of the launched satellites. The “Success and Failure Outcomes” displays the numbers of success launches and failed launches; the “Payload Types” displays the different types and uses of the satellites; and the “Countries” displays the countries that the customers of SpaceX  from on each launch site.  ");
 		};
 
 
@@ -576,7 +582,7 @@
 			outcomeSVG.append("text")
 			.attr("x", 85)
 			.attr("y", height-15)
-			.text("Success and Failure Rate")
+			.text("Success and Failure Outcomes")
 			.attr("fill", "white")
 			.attr("font-size", "10pt")
 			.attr("font-anchor", "middle");		
@@ -617,16 +623,12 @@
 				}
 			});
 
-			if(weatherValue != 0){
-				var temp={"label":"Weather", "value":weatherValue};
-				payloadPieData.push(temp);
-			}
 			if(researchValue != 0){
 				var temp={"label":"Research", "value":researchValue};
 				payloadPieData.push(temp);
 			}
 			if(communicationValue != 0){
-				var temp={"label":"Communication", "value":communicationValue};
+				var temp={"label":"Comm.", "value":communicationValue};
 				payloadPieData.push(temp);
 			}
 			if(humanRemainValue != 0){
@@ -635,6 +637,10 @@
 			}
 			if(suppliesValue != 0){
 				var temp={"label":"Supplies", "value":suppliesValue};
+				payloadPieData.push(temp);
+			}
+			if(weatherValue != 0){
+				var temp={"label":"Weather", "value":weatherValue};
 				payloadPieData.push(temp);
 			}
 
@@ -685,7 +691,7 @@
 			radius = 150,
 			g = countrySVG.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-			var color = d3.scaleOrdinal(["#E9FAF5", "#D4F6EC", "#BFF2E2", "#AAEED9", "#95EACF", "#7FD3B9", "#66A994", "#4C7F6F", "#33554A"]);
+			var color = d3.scaleOrdinal(["#D4F6EC","#AAEED9", "#7FD3B9", "#4C7F6F","#33554A","#66A994","#95EACF","#BFF2E2", "#E9FAF5"]);
 			
 			var countryPieData = [];
 			var USValue=0;

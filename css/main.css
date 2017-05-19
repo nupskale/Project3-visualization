@@ -169,6 +169,15 @@ button a {
   margin-bottom: 50px;
 }
 
+#intro {
+  width: 50%;
+  margin: auto;
+  text-align: center;
+  margin-bottom: 50px;
+  display: block;
+  font-size: 14pt;
+}
+
 #submenu {
   text-align: center;
 }
