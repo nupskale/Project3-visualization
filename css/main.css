@@ -239,16 +239,6 @@ button a {
   margin-top: 70px;
 }
 
-/*path { 
-  stroke: steelblue;
-  stroke-width: 2;
-  fill: none;
+#lineGraphSVG{
+  padding: 20px;
 }
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: grey;
-  stroke-width: 1;
-  shape-rendering: crispEdges;
-}*/
