@@ -1,50 +1,121 @@
+/*Main Class CSS*/
+
 body {
-  /*background-color: #222831;*/
   background-image: url("http://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/img/demo-1-bg.jpg");
   background-opacity: 0.1;
   color: white;
-  /* text-align: center; */
   font-family: 'Roboto', sans-serif;
   position: relative;
 }
 
-#title{
-  text-align: center;
-}
-
-
 button {
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: 50% 50%;
-  width: auto;
-  height: auto;
+  background-color: #455D7A;
+  width: 210px;
+  height: 70px;
   border: 0;
-  background: transparent;
+  border-radius: 10px;
   cursor: pointer;
   outline: none;
+  font-size: 18px;
+  color: white;
+  font-weight: bold;
+  padding: 5px;
+  margin: 0 15px;
+}
+
+button:first-of-type {
+  margin-left: 40px;
 }
 
 button:active {
   transform: translateY(4px);
 }
 
-.btnImg {
-  width: 190px; 
-  height: 75px;
+button a {
+  text-decoration: none;
+  color: white;
 }
 
-#submenu {
+/*Class CSS*/
+
+.selected-btn {
+  box-shadow:
+  0px 0 80px #0ff
+}
+
+.svg-container {
+  margin: 0 auto;
+  margin-top: 30px;
+  height: auto;
+  background-repeat: no-repeat;
   text-align: center;
 }
 
-#submenu h3{
-  display: inline-block;
-  margin: 0;
-  vertical-align: top;
-  margin-top: 15px;
+.svg-container h4 {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.orbit #legend {
+  height: 50%;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.orbit {
+  text-align: left;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  border-bottom: 2px solid #fff;
+  width: 100%;
+  float: left;
+}
+
+.orbit .orbitTitle {
+  width: 15%;
+  float: left;
+}
+
+.orbit .satelliteImages {
+  width: 80%;
+  float: right;
+}
+
+.orbit-satellite {
+  animation: 10s fadeIn;
+}
+
+.orbit-satellite.failure {
+  background-color: #AC2C2C;
+  border-radius: 40%;
+  padding: 10px;
+}
+
+.orbit-satellite.success {
+  background-color: #1BAC44;
+  border-radius: 40%;
+  padding: 10px;
+}
+
+.orbit h2 {
+  opacity: 0.7;
   font-weight: lighter;
-  color: skyblue;
+  display: inline-block;
+  margin-top: 0;
+  margin-right: 20px;
+}
+
+.orbit h5 {
+  font-weight: lighter;
+  margin: 0;
+  opacity: 0.7;
+}
+
+.orbit img {
+  margin-right: 20px;
+  height: 30px;
+  width: 30px;
 }
 
 .stroke {
@@ -76,93 +147,6 @@ button:active {
   stroke-width: .5px;
 }
 
-.svg-container{
-  margin: 0 auto;
-  margin-top: 30px;
-  height: auto;
-  /* background-image: url(../imgs/orbits.png); */
-  background-repeat: no-repeat;
-  text-align: center;
-}
-
-.orbit{
-  text-align: left;
-  padding-bottom: 10px;
-  padding-top: 10px;
-  border-bottom: 2px solid #fff;
-  width: 100%;
-  float: left;
-}
-
-.orbit .orbitTitle{
-  width: 25%;
-  float: left;
-}
-
-.orbit .satelliteImages{
-  width: 75%;
-  float: right;
-}
-
-.orbit-satellite{
-  animation: 10s fadeIn;
-}
-
-.orbit-satellite.failure{
-  background-color: #ff1a1a;
-  border-radius: 50%;
-  padding: 5px;
-}
-
-.orbit-satellite.success{
-  background-color: #59b300;
-  border-radius: 50%;
-  padding: 5px;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    visibility: visible;
-    opacity: 1;
-  }
-}
-
-.orbit h2{
-  opacity: 0.7;
-  font-weight: lighter;
-  display: inline-block;
-  margin-top: 0;
-  margin-right: 20px;
-}
-
-.orbit h5{
-  font-weight: lighter;
-  margin: 0;
-  opacity: 0.7;
-}
-
-.orbit img{
-  margin-right: 20px;
-  cursor: pointer;
-}
-
-#globe{
-  /* margin: 496px 25% 50px; */
-  border-radius: 50%;
-  box-shadow:
-  inset 0 0 50px #fff,
-  inset 20px 0 80px #99F0CA,
-  inset -20px 0 80px #0ff,
-  inset 20px 0 300px #99F0CA,
-  inset -20px 0 300px #0ff,
-  0 0 50px #fff,
-  -10px 0 80px #99F0CA,
-  10px 0 80px #0ff;
-}
-
 .arcs {
   stroke-width: 2px;
   fill: none;
@@ -177,13 +161,51 @@ button:active {
   stroke: #fff;
 }
 
-.selected-btn{
-  border: 5px solid skyblue;
-  border-radius: 15px;
+
+/*ID Css*/
+
+#title {
+  text-align: center;
+  margin-bottom: 50px;
 }
 
+#submenu {
+  text-align: center;
+}
 
-#modal{
+#submenu h3 {
+  display: inline-block;
+  margin: 0;
+  vertical-align: top;
+  margin-top: 15px;
+  font-weight: lighter;
+  color: skyblue;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+#globe {
+  border-radius: 50%;
+  box-shadow:
+  inset 0 0 50px #fff,
+  inset 20px 0 80px #99F0CA,
+  inset -20px 0 80px #0ff,
+  inset 20px 0 300px #99F0CA,
+  inset -20px 0 300px #0ff,
+  0 0 50px #fff,
+  -10px 0 80px #99F0CA,
+  10px 0 80px #0ff;
+}
+
+#modal {
   display: none;
   position: fixed;
   top: 20%;
@@ -198,4 +220,8 @@ button:active {
   opacity: 1;
   border-radius: 10px;
   z-index: 1000000;
+}
+
+#pieCharts {
+  margin-top: 70px;
 }
