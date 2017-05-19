@@ -106,6 +106,11 @@
 			<svg id="globe" class="globe"> </svg>
 			<br>
 			<br>
+			<br>
+			<p id="intro" style="font-size: 14pt"> <b>Line Chart for Overall Satellite Missions</b>
+			<br>
+			The line chart displays the overall satellite missions from different launch sites from the year 2006 to 2016. From the line graph, we know that SpaceX satellites missions launched mostly at Cape Canaveral AFS LC-40 launching site since 2011. In 2016, Cape Canaveral AFS LC-40 was damaged in pad explosion and currently inactive pending repairs, which caused SpaceX to work with a new launching site - Kennedy Space Center LC-39A starting 2017.</p>
+			<svg id="lineGraphSVG" height = "400" width="700"></svg>
 			<div id="pieCharts">
 				<p style="font-size: 26px"></p>
 			</div>
@@ -206,6 +211,7 @@
 
 			showMap();
 			showLocations(launchlocations);
+			lineGraph();
 
 		});
 
@@ -826,6 +832,140 @@
 			.attr("font-size", "10pt")
 			.attr("font-anchor", "middle");		
 		}
+
+		//line chart
+		function lineGraph(){
+			var lineGraphSVG = d3.select("#lineGraphSVG")
+			margin = {top: 20, right: 20, bottom: 30, left: 50},
+    		width = +lineGraphSVG.attr("width") - margin.left - margin.right,
+    		height = +lineGraphSVG.attr("height") - margin.top - margin.bottom,
+    		g = lineGraphSVG.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+			var x = d3.scaleLinear().range([0, width]);
+			var y = d3.scaleLinear().range([height, 0]);
+
+			// define the 1st line: Cape Canaveral
+			var valueline = d3.line()
+   					.x(function(d) { return x(d.year); })
+    				.y(function(d) { return y(d.Cape); });
+
+			// define the 2nd line: Marshall Islands
+			var valueline2 = d3.line()
+    				.x(function(d) { return x(d.year); })
+    				.y(function(d) { return y(d.Marshall); });
+    		// define the 3rd line: Vandenberg
+			var valueline3 = d3.line()
+    				.x(function(d) { return x(d.year); })
+    				.y(function(d) { return y(d.Van); });
+    		// define the 4th line: Kennedy
+			var valueline4 = d3.line()
+    				.x(function(d) { return x(d.year); })
+    				.y(function(d) { return y(d.Kennedy); });
+
+    		var lineGraphData = [
+    		{"year":2006, "Cape": 0, "Marshall": 1, "Van":0, "Kennedy": 0},
+    		{"year":2007, "Cape": 0, "Marshall": 1, "Van":0, "Kennedy": 0},
+    		{"year":2008, "Cape": 0, "Marshall": 3, "Van":0, "Kennedy": 0},
+    		{"year":2009, "Cape": 0, "Marshall": 1, "Van":0, "Kennedy": 0},
+    		{"year":2010, "Cape": 1, "Marshall": 0, "Van":0, "Kennedy": 0},
+    		{"year":2011, "Cape": 0, "Marshall": 0, "Van":0, "Kennedy": 0},
+    		{"year":2012, "Cape": 3, "Marshall": 0, "Van":0, "Kennedy": 0},
+    		{"year":2013, "Cape": 2, "Marshall": 0, "Van":1, "Kennedy": 0},
+    		{"year":2014, "Cape": 6, "Marshall": 0, "Van":0, "Kennedy": 0},
+    		{"year":2015, "Cape": 8, "Marshall": 0, "Van":0, "Kennedy": 0},
+    		{"year":2016, "Cape": 9, "Marshall": 0, "Van":1, "Kennedy": 0},
+    		{"year":2017, "Cape": 0, "Marshall": 0, "Van":1, "Kennedy": 1},
+    		];
+
+    		  // Scale the range of the data
+  			x.domain(d3.extent(lineGraphData, function(d) { return d.year; }));
+  			y.domain([0, d3.max(lineGraphData, function(d) {
+	  			return Math.max(d.Cape, d.Marshall, d.Van, d.Kennedy)+1; })]);
+
+  			// Add the valueline path.
+  			lineGraphSVG.append("path")
+      				.data([lineGraphData])
+      				.attr("class", "line")
+      				.style("stroke", "#D4F6EC")
+      				.style("fill", "none")
+      				.attr("d", valueline);
+
+  			// Add the valueline2 path.
+  			lineGraphSVG.append("path")
+      				.data([lineGraphData])
+      				.attr("class", "line")
+      				.style("stroke", "#AAEED9")
+      				.style("fill", "none")
+      				.attr("d", valueline2);
+
+      		// Add the valueline3 path.
+  			lineGraphSVG.append("path")
+      				.data([lineGraphData])
+      				.attr("class", "line")
+      				.style("stroke", "#7FD3B9")
+      				.style("fill", "none")
+      				.attr("d", valueline3);
+
+      		// Add the valueline4 path.
+  			lineGraphSVG.append("path")
+      				.data([lineGraphData])
+      				.attr("class", "line")
+      				.style("stroke", "#E9FAF5")
+      				.style("stroke-width", "2")
+      				.style("fill", "none")
+      				.attr("d", valueline4);
+
+  			// Add the X Axis
+  			lineGraphSVG.append("g")
+      				.attr("transform", "translate(20," + height + ")")
+      				.attr("stroke", "white")
+      				.style("line", "white")
+      				.attr("path", "white")
+      				.attr("stroke-width", "1")
+      				.attr("fill", "white")
+      				.call(d3.axisBottom(x));
+
+  			// Add the Y Axis
+  			lineGraphSVG.append("g")
+  					.attr("transform", "translate(20,0)")
+  					.style("stroke", "white")
+  					.style("font-size", "10pt")
+  					.attr("stroke-width", "1")
+  					.style("path", "white")
+  					.attr("fill", "white")
+  					.style("line", "white")
+      				.call(d3.axisLeft(y));
+
+      		lineGraphSVG.append("text")
+					.attr("transform", "translate(" + (width-100) + "," + y(lineGraphData[10].Cape+0.1) + ")")
+					.attr("dy", ".35em")
+					.attr("text-anchor", "start")
+					.style("fill", "#D4F6EC")
+					.text("Cape Canaveral AFS LC-40");
+
+			lineGraphSVG.append("text")
+					.attr("transform", "translate(" + (width+3) + "," + y(lineGraphData[11].Marshall) + ")")
+					.attr("dy", ".35em")
+					.attr("text-anchor", "start")
+					.style("fill", "#AAEED9")
+					.text("Marshall Islands");
+
+			lineGraphSVG.append("text")
+					.attr("transform", "translate(" + (width-150) + "," + y(lineGraphData[10].Van+0.5) + ")")
+					.attr("dy", ".35em")
+					.attr("text-anchor", "start")
+					.style("fill", "#7FD3B9")
+					.text("Vandenberg AFB SLC-4E");
+
+			lineGraphSVG.append("text")
+					.attr("transform", "translate(" + (width+3) + "," + y(lineGraphData[11].Kennedy) + ")")
+					.attr("dy", ".35em")
+					.attr("text-anchor", "start")
+					.style("fill", "#E9FAF5")
+					.text("Kennedy Space Center LC-39A");
+		}
+
 
 	</script>
 
