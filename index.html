@@ -108,6 +108,7 @@
 			<br>
 			<br>
 			<br>
+      
 			<p id="intro" style="font-size: 14pt"> 
 			<b>Line Chart for Overall Satellite Missions</b>
 			<br>
@@ -841,8 +842,8 @@
 		}
 
 
+		//line chart
 		function lineGraph(){
-
 			var lineGraphSVG = d3.select("#lineGraphSVG")
 			margin = {top: 20, right: 20, bottom: 30, left: 50},
     		width = +lineGraphSVG.attr("width") - margin.left - margin.right,
@@ -983,7 +984,6 @@
 			d3.select(".xAxis").select(".domain").attr("stroke", "white")
 
 		}
-
 
 	</script>
 
